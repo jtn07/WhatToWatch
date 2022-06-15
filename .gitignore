@@ -1,0 +1,16 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/main/resources/application.yaml
+!**/src/test/**/target/
+!*.yaml
+!gen/**
+
+.idea
+*.iws
+*.iml
+*.ipr
+
+
+gen/

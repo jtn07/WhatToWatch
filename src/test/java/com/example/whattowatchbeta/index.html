@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>User Login</title>
+</head>
+<body>
+<div class="container">
+    <img src="../static/images/ragnar.jpg" alt="Ragnar" style="width:100%" th:src="@{../static/images/ragnar.jpg}"/>
+    <div class="content">
+        <form action="registerUser" method="post">
+<pre>
+Name : <input type="text" name="firstName"/>
+Email: <input type="text" name="email"/>
+    Subscribe?: <input type="checkbox" name ="subscribe">
+<input type="submit" value="register"/>
+
+</pre>
+        </form>
+    </div>
+</div>
+</body>
+</html>

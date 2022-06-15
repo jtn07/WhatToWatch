@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "imdb",
+      "type": "com.example.whattowatchbeta.IMDB.IMDBConfig",
+      "sourceType": "com.example.whattowatchbeta.IMDB.IMDBConfig"
+    },
+    {
+      "name": "ott",
+      "type": "com.example.whattowatchbeta.OTT.OTTConfig",
+      "sourceType": "com.example.whattowatchbeta.OTT.OTTConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "imdb.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.IMDB.IMDBConfig"
+    },
+    {
+      "name": "imdb.end-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.IMDB.IMDBConfig"
+    },
+    {
+      "name": "ott.map",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.example.whattowatchbeta.OTT.OTTConfig"
+    },
+    {
+      "name": "ott.o-t-t-availability-check-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.OTT.OTTConfig"
+    }
+  ],
+  "hints": []
+}
