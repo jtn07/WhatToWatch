@@ -36,7 +36,7 @@ public class UserController {
                 userService.updateUser(user,userEntity);
                 return "successfulRegistration.html";
             }
-            return "404.html";
+            return "Error.html";
         }
         userService.registerUser(user);
         return "successfulRegistration.html";
