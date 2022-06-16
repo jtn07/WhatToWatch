@@ -28,15 +28,18 @@ public class UserController {
 
     @RequestMapping(value = "/registerUser",method = RequestMethod.POST)
     public String registerUser(@ModelAttribute @NotNull @Valid UserEntity user){
-        System.out.println(user.toString());
+
         Optional<UserEntity> userEntity =userService.getUserByEmail(user.getEmail());
-        if (! userEntity.isPresent())
-        userService.registerUser(user);
-        else {
-            userEntity.get().setSubscribe(user.isSubscribe());
-            userService.registerUser(userEntity.get());
+
+        if (userEntity.isPresent() ) {
+            if(user.isSubscribe()) {
+                userService.updateUser(user,userEntity);
+                return "successfulRegistration.html";
+            }
+            return "404.html";
         }
-        return "successfulRegistration";
+        userService.registerUser(user);
+        return "successfulRegistration.html";
     }
 
 }
