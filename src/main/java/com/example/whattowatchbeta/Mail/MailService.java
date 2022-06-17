@@ -1,6 +1,9 @@
 package com.example.whattowatchbeta.Mail;
 
 
+import com.example.whattowatchbeta.IMDB.IMDBMovieEntityRepository;
+import com.example.whattowatchbeta.IMDB.Model.IMDBMovieEntity;
+import com.example.whattowatchbeta.IMDB.Model.imdbBaseModels.ImageandRatingDAO;
 import com.example.whattowatchbeta.OTT.NewDetailsRepository;
 import com.example.whattowatchbeta.OTT.StreamingModels.NewDetails;
 import com.example.whattowatchbeta.OTT.StreamingModels.NewDetailsNode;
@@ -21,7 +24,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MailService {
@@ -31,6 +36,8 @@ public class MailService {
     private NewDetailsRepository newDetailsRepository;
 
     @Autowired
+    IMDBMovieEntityRepository imdbMovieEntityRepository;
+    @Autowired
     private UserService userService;
 
     @Scheduled(cron = "0 0 17 * * *",zone = "IST")
@@ -38,12 +45,15 @@ public class MailService {
        List<NewDetails> newDetails = newDetailsRepository.findAll();
 
         logger.info(newDetails.toString());
-        sendMail(newDetails);
+       // sendMail(newDetails);
+
+        sendHTMLMail(newDetails);
 
     }
     @Autowired
     private Environment environment;
     Logger logger = LoggerFactory.getLogger(MailService.class);
+
 
     public void sendMail(List<NewDetails> newDetailsList) {
         logger.info("Weekly mail job started");
@@ -93,5 +103,52 @@ public class MailService {
         });
         return stringBuilder.toString();
     }
+
+
+    public void sendHTMLMail(List<NewDetails> newDetailsList ) {
+
+        newDetailsList.forEach(x->{
+            IMDBMovieEntity entity=getImageandRatingDetailsfromIMDB(x);
+            x.setTitle(entity.getTitle());
+            x.setImdbRating(entity.getIMDbRating());
+            x.setImage(entity.getImage());
+        });
+
+
+        logger.info("Weekly mail job started");
+        Email from = new Email("jatinsai.jp@gmail.com");
+        from.setName("WhatToWatch?");
+        String subject = "This Week's new OTT releases";
+        String api = environment.getProperty("spring.sendgrid.api-key");
+
+        String htmlMessage=new HTMLPage().getHTMLasString(newDetailsList);
+
+
+        Content content = new Content("text/html",htmlMessage);
+        List<UserEntity> userEntities= userService.getSubscribers();
+        userEntities.forEach(x-> {
+            Email to = new Email(x.getEmail());
+            Mail mail = new Mail(from, subject, to, content);
+            SendGrid sg = new SendGrid(api);
+            Request request = new Request();
+            try {
+                request.setMethod(Method.POST);
+                request.setEndpoint("mail/send");
+                request.setBody(mail.build());
+                Response response = sg.api(request);
+                logger.info(response.getStatusCode()+" for mail "+ x.getEmail());
+            } catch (IOException e) {
+                logger.warn("Cannot send mail to user "+ x.getEmail());
+            }
+        });
+
+    }
+
+    private IMDBMovieEntity getImageandRatingDetailsfromIMDB(NewDetails newDetail) {
+
+        return imdbMovieEntityRepository.getIMageAndRating(newDetail.getImdbId());
+
+    }
+
 
 }

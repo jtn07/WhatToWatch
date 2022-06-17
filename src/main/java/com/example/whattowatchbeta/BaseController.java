@@ -60,4 +60,11 @@ public class BaseController {
         mailService.getOTTDetails();
     }
 
+
+    @RequestMapping("/htmlMail")
+
+    public void sendHtmlMain(){
+        mailService.getOTTDetails();
+    }
+
 }

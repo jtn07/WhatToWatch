@@ -13,11 +13,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void registerUser(UserEntity user){
+    public void registerUser(UserEntity user) {
         userRepository.save(user);
     }
 
-    public UserEntity changeUserDetails(UserEntity user, Optional<UserEntity> userCheck){
+    public UserEntity changeUserDetails(UserEntity user, Optional<UserEntity> userCheck) {
         return UserEntity.builder()
                 .id(userCheck.get().getId())
                 .email(user.getEmail())
@@ -26,16 +26,16 @@ public class UserService {
                 .build();
     }
 
-    public List<UserEntity> getSubscribers(){
+    public List<UserEntity> getSubscribers() {
         return userRepository.getAllBySubscribeIsTrue();
     }
 
-    public Optional<UserEntity> getUserByEmail(String email){
-       return  userRepository.findUserEntityByEmail(email);
+    public Optional<UserEntity> getUserByEmail(String email) {
+        return userRepository.findUserEntityByEmail(email);
     }
 
-    public void updateUser(UserEntity user,Optional<UserEntity> userCheck)  {
-        userRepository.save(changeUserDetails(user,userCheck));
+    public void updateUser(UserEntity user, Optional<UserEntity> userCheck) {
+        userRepository.save(changeUserDetails(user, userCheck));
     }
 
 }

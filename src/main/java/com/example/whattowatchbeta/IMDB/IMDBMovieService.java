@@ -42,26 +42,26 @@ public class IMDBMovieService {
 
     @Scheduled(cron = "0 0 18 * * FRI")
     public void scheduledAddNewService() throws ParseException {
-        Optional<JobDetails> jobDetails=jobDetailsRepository.getByJobId(1L);
-        if(!jobDetails.isPresent()) {
+        Optional<JobDetails> jobDetails = jobDetailsRepository.getByJobId(1L);
+        if (!jobDetails.isPresent()) {
             jobDetailsRepository.save(new JobDetails(1L, new Date()));
         }
-        Optional<JobDetails> jobDetails1=jobDetailsRepository.getByJobId(1L);
-        String lastJobDateString= new GetDate().getLastJobDate(jobDetails1);
-        String todayDateString  = new GetDate().getDate();
+        Optional<JobDetails> jobDetails1 = jobDetailsRepository.getByJobId(1L);
+        String lastJobDateString = new GetDate().getLastJobDate(jobDetails1);
+        String todayDateString = new GetDate().getDate();
 
-        Date todayDate= new SimpleDateFormat("yyyy-MM-dd").parse(todayDateString);
-        logger.info("Dates "+todayDateString+" & "+lastJobDateString);
-        String s= imdbConfig.getBaseUrl()+lastJobDateString+","+todayDateString+"&"+imdbConfig.getEndUrl();
-        addNewMovieDetails(s,jobDetails,todayDate);
+        Date todayDate = new SimpleDateFormat("yyyy-MM-dd").parse(todayDateString);
+        logger.info("Dates " + todayDateString + " & " + lastJobDateString);
+        String s = imdbConfig.getBaseUrl() + lastJobDateString + "," + todayDateString + "&" + imdbConfig.getEndUrl();
+        addNewMovieDetails(s, jobDetails, todayDate);
     }
 
-    public AdvancedSearchData callIMDBRestAPI(String url){
-        logger.info("IMDB API call at "+ LocalDateTime.now());
+    public AdvancedSearchData callIMDBRestAPI(String url) {
+        logger.info("IMDB API call at " + LocalDateTime.now());
         logger.info(url);
-        ResponseEntity<AdvancedSearchData> data= restTemplate.getForEntity(url, AdvancedSearchData.class);
-        if(data.getStatusCode()!= HttpStatus.OK) {
-         logger.error("IMDB Api call has failed with status code "+ data.getStatusCode());
+        ResponseEntity<AdvancedSearchData> data = restTemplate.getForEntity(url, AdvancedSearchData.class);
+        if (data.getStatusCode() != HttpStatus.OK) {
+            logger.error("IMDB Api call has failed with status code " + data.getStatusCode());
             throw new RuntimeException();
         }
         return data.getBody();
@@ -72,43 +72,43 @@ public class IMDBMovieService {
         logger.info("IMDBService starting_____");
         AdvancedSearchData data = callIMDBRestAPI(s);
 
-             if(data== null)
+        if (data == null)
             throw new RuntimeException();
 
         // jobDetailsRepository.save(new JobDetails(1L,new Date()));
 
         jobDetailsRepository.save(new JobDetails(todayDate));
 
-        List<AdvancedSearchResult> resultList= data.results;
+        List<AdvancedSearchResult> resultList = data.results;
 
-        for(AdvancedSearchResult result: resultList){
-            if(checkIfNotMovie(result))
-            continue;
-            IMDBMovieEntity movie=AdvancedSearchResultToMovieEntity(result);
+        for (AdvancedSearchResult result : resultList) {
+            if (checkIfNotMovie(result))
+                continue;
+            IMDBMovieEntity movie = AdvancedSearchResultToMovieEntity(result);
 
-            if(todayDate != null)
+            if (todayDate != null)
                 movie.setReceivedDate(todayDate);
 
-            Optional<String> imdbId= imdbMovieEntityRepository.findBycheckId(result.getId());
+            Optional<String> imdbId = imdbMovieEntityRepository.findBycheckId(result.getId());
 
-            if(imdbId.isPresent()){
+            if (imdbId.isPresent()) {
                 logger.info("Rejecting the record as it is already present in DB");
                 continue;
             }
-           imdbMovieEntityRepository.save(movie);
+            imdbMovieEntityRepository.save(movie);
             logger.info(movie.getTitle());
         }
     }
 
     private boolean checkIfNotMovie(AdvancedSearchResult result) {
-        if (result.getRuntimeStr() == null || ( (Integer.parseInt(result.getRuntimeStr().split(" ")[0]) < 30) && result.getRuntimeStr().split(" ")[1].equals("min") )) {
-           return true;
+        if (result.getRuntimeStr() == null || ((Integer.parseInt(result.getRuntimeStr().split(" ")[0]) < 30) && result.getRuntimeStr().split(" ")[1].equals("min"))) {
+            return true;
         }
-       return false;
+        return false;
     }
 
-    private IMDBMovieEntity AdvancedSearchResultToMovieEntity(AdvancedSearchResult result){
-        IMDBMovieEntity movie= new IMDBMovieEntity(result.getId());
+    private IMDBMovieEntity AdvancedSearchResultToMovieEntity(AdvancedSearchResult result) {
+        IMDBMovieEntity movie = new IMDBMovieEntity(result.getId());
         movie.setTitle(result.getTitle());
         movie.setDescription(result.getDescription());
         movie.setGenres(result.getGenres());

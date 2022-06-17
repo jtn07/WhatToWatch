@@ -18,22 +18,22 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    private final Logger logger= LoggerFactory.getLogger(UserController.class);
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("/")
-    public String showIndex(){
-       logger.info("index page called");
+    public String showIndex() {
+        logger.info("index page called");
         return "login";
     }
 
-    @RequestMapping(value = "/registerUser",method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute @NotNull @Valid UserEntity user){
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    public String registerUser(@ModelAttribute @NotNull @Valid UserEntity user) {
 
-        Optional<UserEntity> userEntity =userService.getUserByEmail(user.getEmail());
+        Optional<UserEntity> userEntity = userService.getUserByEmail(user.getEmail());
 
-        if (userEntity.isPresent() ) {
-            if(user.isSubscribe()) {
-                userService.updateUser(user,userEntity);
+        if (userEntity.isPresent()) {
+            if (user.isSubscribe()) {
+                userService.updateUser(user, userEntity);
                 return "successfulRegistration.html";
             }
             return "Error.html";
