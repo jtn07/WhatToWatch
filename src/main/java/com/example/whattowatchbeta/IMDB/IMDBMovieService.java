@@ -75,7 +75,7 @@ public class IMDBMovieService {
         if (data == null)
             throw new RuntimeException();
 
-        // jobDetailsRepository.save(new JobDetails(1L,new Date()));
+        jobDetailsRepository.save(new JobDetails(1L,new Date()));
 
         jobDetailsRepository.save(new JobDetails(todayDate));
 

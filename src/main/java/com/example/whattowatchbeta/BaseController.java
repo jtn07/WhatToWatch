@@ -3,22 +3,27 @@ package com.example.whattowatchbeta;
 import com.example.whattowatchbeta.IMDB.IMDBMovieEntityRepository;
 import com.example.whattowatchbeta.IMDB.IMDBMovieService;
 import com.example.whattowatchbeta.IMDB.Model.IMDBMovieEntity;
-import com.example.whattowatchbeta.IMDB.Model.imdbBaseModels.AdvancedSearchData;
 import com.example.whattowatchbeta.Mail.MailService;
+import com.example.whattowatchbeta.OTT.NewDetailsRepository;
 import com.example.whattowatchbeta.OTT.OTTService;
+import com.example.whattowatchbeta.OTT.TMDBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/test")
 public class BaseController {
-//These endpoints is to trigger service layer job for testing purpose only
+//These endpoints are to trigger service layer job for testing purpose only
     @Autowired
     private OTTService ottService;
+
+    @Autowired
+    private NewDetailsRepository newDetailsRepository;
 
     @Autowired
     private IMDBMovieService imdbMovieService;
@@ -32,7 +37,7 @@ public class BaseController {
     }
 
     @RequestMapping("/scheduledOTTCheckService")
-    public String none(){
+    public String none() throws InterruptedException {
         ottService.scheduledOTTCheckService();
         return "started";
     }
@@ -66,5 +71,16 @@ public class BaseController {
     public void sendHtmlMain(){
         mailService.getOTTDetails();
     }
+
+    @Autowired
+    TMDBService tmdbService;
+
+    @RequestMapping("/newDetailsAdding")
+    public void none5(){
+
+        ottService.scheduledOTTCheckService();
+
+    }
+
 
 }

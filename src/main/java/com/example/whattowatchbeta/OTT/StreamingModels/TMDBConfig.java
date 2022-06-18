@@ -1,13 +1,13 @@
-package com.example.whattowatchbeta.IMDB;
+package com.example.whattowatchbeta.OTT.StreamingModels;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+
+@ConfigurationProperties(prefix = "tmdb")
 @Data
-@ConfigurationProperties(prefix="imdb")
-public class IMDBConfig {
-    private String baseUrl;
+public class TMDBConfig {
+    private String startUrl;
     private String endUrl;
-    private String tailUrl;
 }

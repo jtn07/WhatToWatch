@@ -2,8 +2,7 @@ package com.example.whattowatchbeta.Mail;
 
 
 import com.example.whattowatchbeta.IMDB.IMDBMovieEntityRepository;
-import com.example.whattowatchbeta.IMDB.Model.IMDBMovieEntity;
-import com.example.whattowatchbeta.IMDB.Model.imdbBaseModels.ImageandRatingDAO;
+
 import com.example.whattowatchbeta.OTT.NewDetailsRepository;
 import com.example.whattowatchbeta.OTT.StreamingModels.NewDetails;
 import com.example.whattowatchbeta.OTT.StreamingModels.NewDetailsNode;
@@ -40,6 +39,9 @@ public class MailService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SendGridConfig sendGridConfig;
+
     @Scheduled(cron = "0 0 17 * * *",zone = "IST")
     public void getOTTDetails(){
        List<NewDetails> newDetails = newDetailsRepository.findAll();
@@ -56,11 +58,11 @@ public class MailService {
 
 
     public void sendMail(List<NewDetails> newDetailsList) {
-        logger.info("Weekly mail job started");
-        Email from = new Email("jatinsai.jp@gmail.com");
-        from.setName("WhatToWatch?");
+        logger.info("Weekly mail job started.....");
+        Email from = new Email(sendGridConfig.getFrom());
+        from.setName(sendGridConfig.getName());
         String subject = "This Week's new OTT releases";
-        String api = environment.getProperty("spring.sendgrid.api-key");
+        String api = environment.getProperty(sendGridConfig.getApiKey());
 
         String matter = makeOttDetailsContent(newDetailsList);
 
@@ -107,17 +109,9 @@ public class MailService {
 
     public void sendHTMLMail(List<NewDetails> newDetailsList ) {
 
-        newDetailsList.forEach(x->{
-            IMDBMovieEntity entity=getImageandRatingDetailsfromIMDB(x);
-            x.setTitle(entity.getTitle());
-            x.setImdbRating(entity.getIMDbRating());
-            x.setImage(entity.getImage());
-        });
-
-
         logger.info("Weekly mail job started");
-        Email from = new Email("jatinsai.jp@gmail.com");
-        from.setName("WhatToWatch?");
+        Email from = new Email(sendGridConfig.getFrom());
+        from.setName(sendGridConfig.getName());
         String subject = "This Week's new OTT releases";
         String api = environment.getProperty("spring.sendgrid.api-key");
 
@@ -143,12 +137,4 @@ public class MailService {
         });
 
     }
-
-    private IMDBMovieEntity getImageandRatingDetailsfromIMDB(NewDetails newDetail) {
-
-        return imdbMovieEntityRepository.getIMageAndRating(newDetail.getImdbId());
-
-    }
-
-
 }
