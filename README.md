@@ -2,6 +2,8 @@
  Spring boot application which has scheduled jobs to get the information of newly released movies can filter out based on the user ratings, and user votes from multiple sources and send out an email to subscribers once those movies are released on OTT along with the OTT platform links.
  
  Note: Movie images are clickable links to the exact movie on the streaming platform.
+ 
+ Note: Looking for contributors to turn this monolithic application into microservice architecture and eventually make it production-ready.
 
 High level Design
 
