@@ -23,9 +23,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MailService {
@@ -115,7 +113,7 @@ public class MailService {
         String subject = "This Week's new OTT releases";
         String api = sendGridConfig.getApiKey();
 
-        String htmlMessage=new HTMLPage().getHTMLasString(newDetailsList);
+        String htmlMessage=new MailContent().getHTMLasString(newDetailsList);
 
 
         Content content = new Content("text/html",htmlMessage);

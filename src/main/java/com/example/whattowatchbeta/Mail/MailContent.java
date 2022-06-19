@@ -4,7 +4,7 @@ import com.example.whattowatchbeta.OTT.StreamingModels.NewDetails;
 
 import java.util.List;
 
-class HTMLPage {
+class MailContent {
     public String getHTMLasString(List<NewDetails> newDetailsList){
         String html="<html xmlns:th=\"http://www.thymeleaf.org\" >\n" +
                 "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
