@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "sendGrid")
+@ConfigurationProperties(prefix = "sendgrid")
 public class SendGridConfig {
     private String from;
     private String name;

@@ -33,7 +33,7 @@ class HTMLPage {
                 "</head>\n" +
                 "<body>\n" +
                 "<div class=\"content\">"+
-                "<h1>This week's OTT releases </h1>"   ;
+                "<h1>This week's OTT releases </h1>\n Click on the movie image to redirect to streaming platform."   ;
 
         StringBuilder sb = new StringBuilder();
 

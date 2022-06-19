@@ -113,7 +113,7 @@ public class MailService {
         Email from = new Email(sendGridConfig.getFrom());
         from.setName(sendGridConfig.getName());
         String subject = "This Week's new OTT releases";
-        String api = environment.getProperty("spring.sendgrid.api-key");
+        String api = sendGridConfig.getApiKey();
 
         String htmlMessage=new HTMLPage().getHTMLasString(newDetailsList);
 
@@ -131,6 +131,7 @@ public class MailService {
                 request.setBody(mail.build());
                 Response response = sg.api(request);
                 logger.info(response.getStatusCode()+" for mail "+ x.getEmail());
+                logger.info(response.getBody());
             } catch (IOException e) {
                 logger.warn("Cannot send mail to user "+ x.getEmail());
             }

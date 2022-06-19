@@ -9,6 +9,16 @@
       "name": "ott",
       "type": "com.example.whattowatchbeta.OTT.OTTConfig",
       "sourceType": "com.example.whattowatchbeta.OTT.OTTConfig"
+    },
+    {
+      "name": "sendGrid",
+      "type": "com.example.whattowatchbeta.Mail.SendGridConfig",
+      "sourceType": "com.example.whattowatchbeta.Mail.SendGridConfig"
+    },
+    {
+      "name": "tmdb",
+      "type": "com.example.whattowatchbeta.OTT.StreamingModels.TMDBConfig",
+      "sourceType": "com.example.whattowatchbeta.OTT.StreamingModels.TMDBConfig"
     }
   ],
   "properties": [
@@ -23,6 +33,11 @@
       "sourceType": "com.example.whattowatchbeta.IMDB.IMDBConfig"
     },
     {
+      "name": "imdb.tail-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.IMDB.IMDBConfig"
+    },
+    {
       "name": "ott.map",
       "type": "java.util.Map<java.lang.String,java.lang.String>",
       "sourceType": "com.example.whattowatchbeta.OTT.OTTConfig"
@@ -31,6 +46,31 @@
       "name": "ott.o-t-t-availability-check-url",
       "type": "java.lang.String",
       "sourceType": "com.example.whattowatchbeta.OTT.OTTConfig"
+    },
+    {
+      "name": "sendGrid.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.Mail.SendGridConfig"
+    },
+    {
+      "name": "sendGrid.from",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.Mail.SendGridConfig"
+    },
+    {
+      "name": "sendGrid.name",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.Mail.SendGridConfig"
+    },
+    {
+      "name": "tmdb.end-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.OTT.StreamingModels.TMDBConfig"
+    },
+    {
+      "name": "tmdb.start-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.whattowatchbeta.OTT.StreamingModels.TMDBConfig"
     }
   ],
   "hints": []
