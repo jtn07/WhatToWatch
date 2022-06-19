@@ -3,7 +3,7 @@
  
  Note: Movie images are clickable links to the exact movie on the streaming platform.
  
- Note: Looking for contributors to turn this monolithic application into microservice architecture and eventually make it production-ready.
+ Note: Looking for contributors to turn this monolithic application into microservices architecture and eventually make it production-ready.
 
 High level Design
 
